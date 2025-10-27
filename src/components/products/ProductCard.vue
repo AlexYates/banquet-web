@@ -26,9 +26,10 @@ const formattedPrice = computed(() => {
                     class="flex h-full w-full items-center justify-center object-cover text-center" />
             </div>
             <CardTitle class="text-lg">{{ product.name }}</CardTitle>
-            <CardDescription class="text-sm h-10">{{ product.description.substring(0, 70) }}&hellip;</CardDescription>
+            <CardTitle class="text-sm text-muted-foreground text-right">{{ product.brand }}</CardTitle>
+            <CardDescription class=" text-sm h-10">{{ product.description.substring(0, 70) }}&hellip;</CardDescription>
         </CardHeader>
-        <CardContent class="flex-grow">
+        <CardContent class="mt-8 grow items-end justify-end">
             <p class="text-2xl font-semibold">{{ formattedPrice }}</p>
         </CardContent>
         <CardFooter class="flex flex-col xl:flex-row justify-between">

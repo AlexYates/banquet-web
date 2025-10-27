@@ -10,6 +10,7 @@ export interface ProductFilters {
     category: ProductCategory | 'all'
     price_in_pence_gt: number | null
     price_in_pence_lt: number | null
+    brand: string | 'all'
 }
 
 export const useProductsStore = defineStore('products', () => {
@@ -17,17 +18,32 @@ export const useProductsStore = defineStore('products', () => {
     const route = useRoute()
 
     const products = ref<Product[]>([])
+    const availableBrands = ref<string[]>([])
     const isLoading = ref(false)
     const filters = ref<ProductFilters>({
         category: 'all',
         price_in_pence_gt: null,
         price_in_pence_lt: null,
+        brand: 'all',
     })
 
     const formattedMaxPrice = computed(() => {
         if (!filters.value.price_in_pence_lt) return 'Any'
         return `£${(filters.value.price_in_pence_lt / 100).toFixed(2)}`
     })
+
+    /**
+     * Fetches all products once to populate the brand filter options
+     */
+    async function fetchAvailableBrands() {
+        try {
+            const response = await api.get<Product[]>('/products');
+            const uniqueBrands = [...new Set(response.data.map((product: Product) => product.brand))];
+            availableBrands.value = uniqueBrands;
+        } catch (error) {
+            console.error('Failed to fetch brands:', error);
+        }
+    }
 
     /**
      * Fetches products from the API based on the current filters.
@@ -45,7 +61,9 @@ export const useProductsStore = defineStore('products', () => {
             if (filters.value.price_in_pence_lt) {
                 params.append('price_in_pence_lt', filters.value.price_in_pence_lt.toString())
             }
-
+            if (filters.value.brand !== 'all') {
+                params.append('brand', filters.value.brand);
+            }
             const response = await api.get<Product[]>(`/products?${params.toString()}`)
             products.value = response.data
         } catch (error) {
@@ -63,7 +81,7 @@ export const useProductsStore = defineStore('products', () => {
         const query: Record<string, any> = {}
         if (filters.value.category !== 'all') query.category = filters.value.category
         if (filters.value.price_in_pence_lt) query.maxPrice = filters.value.price_in_pence_lt
-
+        if (filters.value.brand !== 'all') query.brand = filters.value.brand
         router.push({ query })
     }
 
@@ -71,12 +89,15 @@ export const useProductsStore = defineStore('products', () => {
      * Reads filter values from the URL on page load.
      */
     function initializeFiltersFromUrl() {
-        const { category, maxPrice } = route.query
+        const { category, maxPrice, brand } = route.query
         if (category && (category === 'surfboard' || category === 'accessory')) {
             filters.value.category = category
         }
         if (maxPrice && !isNaN(Number(maxPrice))) {
             filters.value.price_in_pence_lt = Number(maxPrice)
+        }
+        if (brand && typeof brand === 'string') {
+            filters.value.brand = brand;
         }
     }
 
@@ -85,7 +106,9 @@ export const useProductsStore = defineStore('products', () => {
         isLoading,
         filters,
         formattedMaxPrice,
+        availableBrands,
         fetchProducts,
+        fetchAvailableBrands,
         updateUrlWithFilters,
         initializeFiltersFromUrl,
     }

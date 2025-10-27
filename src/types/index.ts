@@ -16,6 +16,7 @@ export type Product = {
     price_in_pence: number;
     image_url: string;
     category: ProductCategory;
+    brand: string;
 };
 
 export type CartItem = {

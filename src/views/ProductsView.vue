@@ -20,10 +20,8 @@ onMounted(() => {
             <h1 class="text-4xl font-extrabold tracking-tight">Our Collection</h1>
             <p class="mt-2 text-lg text-muted-foreground">Find your next favorite board or accessory.</p>
         </div>
-
         <div class="flex flex-col md:flex-row gap-8">
             <ProductFilters />
-
             <div class="flex-1">
                 <div v-if="productsStore.isLoading" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     <div v-for="n in 6" :key="n" class="animate-pulse bg-muted rounded-lg h-96"></div>
