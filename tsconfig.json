@@ -7,7 +7,10 @@
             "@/*": [
                 "./src/*"
             ]
-        }
+        },
+        "types": [
+            "vite/client"
+        ]
     },
     "exclude": [
         "src/**/__tests__/*"

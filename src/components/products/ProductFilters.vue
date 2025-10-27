@@ -45,8 +45,11 @@ function onFilterChange() {
                     <span class="text-sm text-muted-foreground">{{ productsStore.formattedMaxPrice }}</span>
                 </div>
                 <Slider :default-value="[80000]" :model-value="[productsStore.filters.price_in_pence_lt ?? 80000]"
-                    @update:model-value="(val?) => { productsStore.filters.price_in_pence_lt = val[0] }"
-                    @value-commit="onFilterChange" :max="80000" :step="1000" />
+                    @update:model-value="(val) => {
+                        if (val) {
+                            productsStore.filters.price_in_pence_lt = val[0]
+                        }
+                    }" @value-commit="onFilterChange" :max="80000" :step="1000" />
             </div>
             <div>
                 <Label for="brand" class="font-semibold inline-flex mb-2">Brand</Label>

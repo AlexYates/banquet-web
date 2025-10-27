@@ -10,6 +10,7 @@ import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
 import { toast } from 'vue-sonner'
 
+import type { Product } from '@/types'
 import { useAuthStore } from '@/stores/auth'
 import { useProductsStore } from '@/stores/products'
 import { useCartStore } from '@/stores/cart'
@@ -75,16 +76,18 @@ function handleAddToCart() {
     cartStore.addToCart(product.value!.id, quantity.value)
 }
 
+const specKeys: (keyof Product)[] = [
+    'dimensions',
+    'volume',
+    'ability',
+    'conditions',
+    'construction',
+    'fin_system',
+];
+
 const hasSpecs = computed(() => {
-    return [
-        'dimensions',
-        'volume',
-        'ability',
-        'conditions',
-        'construction',
-        'fin_system',
-    ].some((spec) => {
-        return product.value[spec] != null
+    return specKeys.some((spec) => {
+        return !product.value || product.value[spec] != null && product.value[spec] !== ''
     });
 });
 </script>

@@ -7,7 +7,7 @@ defineProps<{
     product: Product
 }>();
 
-const specs = [
+const specs: { key: keyof Product; label: string }[] = [
     { key: 'dimensions', label: 'Dimensions' },
     { key: 'volume', label: 'Volume' },
     { key: 'ability', label: 'Rider Ability' },
