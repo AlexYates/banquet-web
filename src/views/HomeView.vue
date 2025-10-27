@@ -9,11 +9,9 @@ import SiteHero from '@/components/home/SiteHero.vue';
 </script>
 
 <template>
-    <div class="container">
-        <SiteHero />
-        <FeaturedProducts />
-        <CategoryShowcase />
-        <ValueProposition />
-        <NewsletterCallout />
-    </div>
+    <SiteHero />
+    <FeaturedProducts />
+    <CategoryShowcase />
+    <ValueProposition />
+    <NewsletterCallout />
 </template>
