@@ -7,11 +7,13 @@ import { useRoute, useRouter } from 'vue-router'
 import { Star } from 'lucide-vue-next'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { Separator } from '@/components/ui/separator'
 import { toast } from 'vue-sonner'
 
 import { useAuthStore } from '@/stores/auth'
 import { useProductsStore } from '@/stores/products'
 import { useCartStore } from '@/stores/cart'
+import ProductSpecs from '@/components/products/ProductSpecs.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -72,6 +74,19 @@ function handleAddToCart() {
     }
     cartStore.addToCart(product.value!.id, quantity.value)
 }
+
+const hasSpecs = computed(() => {
+    return [
+        'dimensions',
+        'volume',
+        'ability',
+        'conditions',
+        'construction',
+        'fin_system',
+    ].some((spec) => {
+        return product.value[spec] != null
+    });
+});
 </script>
 
 <template>
@@ -106,7 +121,7 @@ function handleAddToCart() {
                     <span v-if="product.deal_type" class="text-2xl text-muted-foreground line-through">
                         {{ formatPrice(product.price_in_pence) }}
                     </span>
-                    <span class="text-4xl font-bold text-primary-foreground">
+                    <span class="text-4xl font-bold text-primary">
                         {{ formatPrice(finalPrice) }}
                     </span>
                     <Badge v-if="product.deal_type === 'percentage'" variant="destructive">
@@ -124,6 +139,10 @@ function handleAddToCart() {
                     </div>
                     <Button size="lg" class="flex-1" @click="handleAddToCart">Add to Cart</Button>
                 </div>
+                <template v-if="hasSpecs">
+                    <Separator />
+                    <ProductSpecs :product="product" />
+                </template>
             </div>
         </div>
     </div>
