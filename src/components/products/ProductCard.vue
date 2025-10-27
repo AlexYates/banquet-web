@@ -1,14 +1,24 @@
 <!-- banquet-web/src/components/products/ProductCard.vue -->
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import { RouterLink } from 'vue-router'
+import { computed, ref } from 'vue';
+import { RouterLink, useRouter } from 'vue-router'
 
+import { toast } from 'vue-sonner';
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 
 import type { Product } from '@/types'
+import { useAuthStore } from '@/stores/auth';
+import { useCartStore } from '@/stores/cart';
+
+const router = useRouter()
+
+const authStore = useAuthStore()
+const cartStore = useCartStore()
+
+const quantity = ref(1)
 
 const props = defineProps<{
     product: Product
@@ -32,6 +42,19 @@ const formattedPrice = computed(() => {
         currency: 'GBP',
     }).format(finalPrice.value / 100)
 })
+
+function handleAddToCart() {
+    if (!authStore.isAuthenticated) {
+        toast.info('Please log in to add items to your cart.', {
+            action: {
+                label: 'Login',
+                onClick: () => router.push({ name: 'login' }),
+            },
+        })
+        return
+    }
+    cartStore.addToCart(props.product.id, quantity.value)
+}
 </script>
 
 <template>
@@ -52,7 +75,7 @@ const formattedPrice = computed(() => {
             <RouterLink class="mb-4 w-full lg:mr-2 xl:mb-0 max-xl:w-auto" :to="`/products/${product.id}`">
                 <Button variant="outline">View Details</Button>
             </RouterLink>
-            <Button class="w-full">Add to Cart</Button>
+            <Button class="w-full" @click="handleAddToCart">Add to Cart</Button>
         </CardFooter>
     </Card>
 </template>

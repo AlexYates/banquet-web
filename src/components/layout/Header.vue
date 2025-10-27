@@ -2,11 +2,16 @@
 
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
+
 import { ShoppingCart, LogIn, User, LogOut } from 'lucide-vue-next'
-import { useAuthStore } from '@/stores/auth'
 import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+
+import { useAuthStore } from '@/stores/auth'
+import { useCartStore } from '@/stores/cart'
 
 const authStore = useAuthStore()
+const cartStore = useCartStore()
 </script>
 
 <template>
@@ -26,26 +31,28 @@ const authStore = useAuthStore()
             </nav>
 
             <div class="flex items-center space-x-4">
-                <Button variant="ghost" size="icon">
+                <Button title="Open cart" variant="ghost" size="icon" class="relative" @click="cartStore.togglePanel">
+                    <Badge v-if="cartStore.itemCount > 0" variant="destructive"
+                        class="absolute bg-primary rounded-full text-primary-foreground -top-2 -right-2 h-5 w-5 justify-center p-0">
+                        {{ cartStore.itemCount }}</Badge>
                     <ShoppingCart class="h-5 w-5" />
                     <span class="sr-only">Open cart</span>
                 </Button>
-
                 <template v-if="authStore.isAuthenticated">
                     <Button variant="ghost" size="icon">
                         <User class="h-5 w-5" />
                         <span class="sr-only">My Account</span>
                     </Button>
-                    <Button variant="ghost" size="icon" @click="authStore.logout; $router.push('/')">
+                    <Button title="Log Out" variant="ghost" size="icon" @click="authStore.logout">
                         <LogOut class="h-5 w-5" />
                         <span class="sr-only">Log Out</span>
                     </Button>
                 </template>
                 <template v-else>
-                    <Button variant="ghost" as-child>
+                    <Button title="Log In" variant="ghost" as-child>
                         <RouterLink to="/login">
                             <LogIn class="mr-2 h-4 w-4" />
-                            Login
+                            Log In
                         </RouterLink>
                     </Button>
                 </template>

@@ -2,14 +2,24 @@
 
 <script setup lang="ts">
 import { onMounted, computed, ref } from 'vue'
-import { useRoute } from 'vue-router'
-import { useProductsStore } from '@/stores/products'
-import { Button } from '@/components/ui/button'
+import { useRoute, useRouter } from 'vue-router'
+
 import { Star } from 'lucide-vue-next'
+import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { toast } from 'vue-sonner'
+
+import { useAuthStore } from '@/stores/auth'
+import { useProductsStore } from '@/stores/products'
+import { useCartStore } from '@/stores/cart'
 
 const route = useRoute()
+const router = useRouter()
+
+const authStore = useAuthStore()
 const productsStore = useProductsStore()
+const cartStore = useCartStore()
+
 const quantity = ref(1)
 
 const product = computed(() => productsStore.selectedProduct)
@@ -49,6 +59,19 @@ function decrementQuantity() {
         quantity.value--;
     }
 }
+
+function handleAddToCart() {
+    if (!authStore.isAuthenticated) {
+        toast.info('Please log in to add items to your cart.', {
+            action: {
+                label: 'Login',
+                onClick: () => router.push({ name: 'login' }),
+            },
+        })
+        return
+    }
+    cartStore.addToCart(product.value!.id, quantity.value)
+}
 </script>
 
 <template>
@@ -62,19 +85,15 @@ function decrementQuantity() {
             </Button>
         </div>
         <div v-else class="grid md:grid-cols-2 gap-12">
-            <!-- Product Image -->
             <div class="bg-muted rounded-lg flex items-center justify-center p-8">
                 <img :src="`http://localhost:3000${product.image_url}`" :alt="product.name"
                     class="max-h-[500px] object-contain" />
             </div>
-
-            <!-- Product Details -->
             <div class="flex flex-col space-y-4">
                 <div>
                     <h1 class="text-3xl lg:text-4xl font-bold tracking-tight">{{ product.name }}</h1>
                     <h2 class="text-lg text-muted-foreground">{{ product.brand }} - {{ product.model }}</h2>
                 </div>
-
                 <div v-if="product.rating" class="flex items-center gap-2">
                     <div class="flex items-center">
                         <Star v-for="i in 5" :key="i" class="h-5 w-5"
@@ -82,9 +101,7 @@ function decrementQuantity() {
                     </div>
                     <span class="text-muted-foreground text-sm">{{ product.rating.toFixed(1) }} stars</span>
                 </div>
-
                 <p class="text-base leading-relaxed">{{ product.description }}</p>
-
                 <div class="flex items-baseline gap-4 pt-4">
                     <span v-if="product.deal_type" class="text-2xl text-muted-foreground line-through">
                         {{ formatPrice(product.price_in_pence) }}
@@ -99,15 +116,13 @@ function decrementQuantity() {
                         {{ formatPrice(product.deal_discount!) }} OFF
                     </Badge>
                 </div>
-
-                <!-- Add to Cart Section -->
                 <div class="flex items-center gap-4 pt-6">
                     <div class="flex items-center border rounded-md">
                         <Button variant="ghost" @click="decrementQuantity" class="px-3">-</Button>
                         <span class="px-4 w-12 text-center">{{ quantity }}</span>
                         <Button variant="ghost" @click="incrementQuantity" class="px-3">+</Button>
                     </div>
-                    <Button size="lg" class="flex-1">Add to Cart</Button>
+                    <Button size="lg" class="flex-1" @click="handleAddToCart">Add to Cart</Button>
                 </div>
             </div>
         </div>

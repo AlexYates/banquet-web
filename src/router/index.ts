@@ -12,6 +12,7 @@ import LoginView from '@/views/LoginView.vue'
 import RegisterView from '@/views/RegisterView.vue'
 import ProductDetailView from '@/views/ProductDetailView.vue'
 import AboutUsView from '@/views/AboutUsView.vue'
+import CartView from '@/views/CartView.vue'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -57,6 +58,12 @@ const router = createRouter({
                     path: '/about-us',
                     name: 'about-us',
                     component: AboutUsView,
+                },
+                {
+                    path: '/cart',
+                    name: 'cart',
+                    component: CartView,
+                    meta: { requiresAuth: true }
                 },
             ],
         },
