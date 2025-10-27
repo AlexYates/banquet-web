@@ -3,7 +3,7 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
 
-import { ShoppingCart, LogIn, User, LogOut } from 'lucide-vue-next'
+import { ShoppingCart, LogIn, User, LogOut, Waves } from 'lucide-vue-next'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 
@@ -17,8 +17,10 @@ const cartStore = useCartStore()
 <template>
     <header class="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div class="container flex h-16 items-center justify-between">
-            <RouterLink to="/" class="text-2xl font-bold tracking-tight text-primary-foreground">
-                Banquet
+
+            <RouterLink title="Banquet Surf Co." to="/"
+                class="flex items-center justify-center h-12 w-12 rounded-full bg-primary ">
+                <Waves class="h-6 w-6 text-primary-foreground" />
             </RouterLink>
 
             <nav class="flex items-center space-x-6 text-sm font-medium">
