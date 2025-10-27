@@ -42,3 +42,21 @@ export type CartResponse = {
     cart: Cart;
     items: CartItem[];
 };
+
+export type UserProfile = {
+    user_id: number;
+    first_name?: string;
+    last_name?: string;
+    phone_number?: string;
+};
+
+export type Address = {
+    id: number;
+    user_id: number;
+    address_type: 'shipping' | 'billing';
+    street_address: string;
+    city: string;
+    post_code: string;
+    country: string;
+    is_default: boolean;
+};

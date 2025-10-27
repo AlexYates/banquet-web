@@ -17,12 +17,10 @@ const cartStore = useCartStore()
 <template>
     <header class="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div class="container flex h-16 items-center justify-between">
-
             <RouterLink title="Banquet Surf Co." to="/"
                 class="flex items-center justify-center h-12 w-12 rounded-full bg-primary ">
                 <Waves class="h-6 w-6 text-primary-foreground" />
             </RouterLink>
-
             <nav class="flex items-center space-x-6 text-sm font-medium">
                 <RouterLink to="/" class="transition-colors hover:text-primary/80">
                     Home
@@ -31,7 +29,6 @@ const cartStore = useCartStore()
                     Products
                 </RouterLink>
             </nav>
-
             <div class="flex items-center space-x-4">
                 <Button title="Open cart" variant="ghost" size="icon" class="relative" @click="cartStore.togglePanel">
                     <Badge v-if="cartStore.itemCount > 0" variant="destructive"
@@ -41,11 +38,13 @@ const cartStore = useCartStore()
                     <span class="sr-only">Open cart</span>
                 </Button>
                 <template v-if="authStore.isAuthenticated">
-                    <Button variant="ghost" size="icon">
-                        <User class="h-5 w-5" />
-                        <span class="sr-only">My Account</span>
+                    <Button variant="ghost" size="icon" as-child>
+                        <RouterLink to="/account">
+                            <User class="h-5 w-5" />
+                            <span class="sr-only">My Account</span>
+                        </RouterLink>
                     </Button>
-                    <Button title="Log Out" variant="ghost" size="icon" @click="authStore.logout">
+                    <Button variant="ghost" size="icon" @click="authStore.logout">
                         <LogOut class="h-5 w-5" />
                         <span class="sr-only">Log Out</span>
                     </Button>

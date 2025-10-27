@@ -22,6 +22,6 @@ onMounted(() => {
 
 <template>
     <RouterView />
-    <Toaster rich-colors position="top-right" class="mt-16" />
+    <Toaster rich-colors position="bottom-left" />
     <CartSheet />
 </template>

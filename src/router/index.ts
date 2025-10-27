@@ -13,6 +13,7 @@ import RegisterView from '@/views/RegisterView.vue'
 import ProductDetailView from '@/views/ProductDetailView.vue'
 import AboutUsView from '@/views/AboutUsView.vue'
 import CartView from '@/views/CartView.vue'
+import AccountView from '@/views/AccountView.vue'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -64,6 +65,12 @@ const router = createRouter({
                     name: 'cart',
                     component: CartView,
                     meta: { requiresAuth: true }
+                },
+                {
+                    path: '/account',
+                    name: 'account',
+                    component: AccountView,
+                meta: { requiresAuth: true }
                 },
             ],
         },
