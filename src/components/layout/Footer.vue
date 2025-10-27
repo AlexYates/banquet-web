@@ -36,12 +36,15 @@ async function handleSubmit() {
             <div>
                 <h3 class="font-semibold">Quick Links</h3>
                 <ul class="mt-4 space-y-2">
-                    <li><a href="#" class="text-muted-foreground hover:text-primary-foreground">About Us</a></li>
                     <li>
-                        <RouterLink to="/newsletter" class="text-muted-foreground hover:text-primary-foreground">
+                        <RouterLink to="/about-us" class="text-muted-foreground hover:text-primary">About Us
+                        </RouterLink>
+                    </li>
+                    <li>
+                        <RouterLink to="/newsletter" class="text-muted-foreground hover:text-primary">
                             Newsletter</RouterLink>
                     </li>
-                    <li><a href="#" class="text-muted-foreground hover:text-primary-foreground">FAQ</a></li>
+                    <li><a href="#" class="text-muted-foreground hover:text-primary">FAQ</a></li>
                 </ul>
             </div>
             <div class="md:col-start-3">

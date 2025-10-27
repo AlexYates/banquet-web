@@ -17,10 +17,10 @@ const authStore = useAuthStore()
             </RouterLink>
 
             <nav class="flex items-center space-x-6 text-sm font-medium">
-                <RouterLink to="/" class="transition-colors hover:text-primary-foreground/80">
+                <RouterLink to="/" class="transition-colors hover:text-primary/80">
                     Home
                 </RouterLink>
-                <RouterLink to="/products" class="transition-colors hover:text-primary-foreground/80">
+                <RouterLink to="/products" class="transition-colors hover:text-primary/80">
                     Products
                 </RouterLink>
             </nav>
