@@ -5,6 +5,7 @@ import { defineStore } from 'pinia'
 import api from '@/lib/api'
 import type { Product, ProductCategory } from '@/types'
 import { useRoute, useRouter } from 'vue-router'
+import { toast } from 'vue-sonner'
 
 export interface ProductFilters {
     category: ProductCategory | 'all'
@@ -18,6 +19,8 @@ export const useProductsStore = defineStore('products', () => {
     const route = useRoute()
 
     const products = ref<Product[]>([])
+    const selectedProduct = ref<Product | null>(null);
+
     const availableBrands = ref<string[]>([])
     const isLoading = ref(false)
     const filters = ref<ProductFilters>({
@@ -73,6 +76,23 @@ export const useProductsStore = defineStore('products', () => {
         }
     }
 
+    async function fetchProductById(productId: string) {
+        isLoading.value = true;
+        selectedProduct.value = null;
+        try {
+            const response = await api.get<Product>(`/products/${productId}`);
+            selectedProduct.value = response.data;
+        } catch (error) {
+            console.error(`Failed to fetch product ${productId}:`, error);
+            toast.error('Product not found', {
+                description: 'The product you are looking for does not exist.'
+            });
+            // Optionally redirect here if needed
+        } finally {
+            isLoading.value = false;
+        }
+    }
+
     /**
      * Updates the URL query parameters whenever filters change.
      * This allows for shareable, bookmarkable filter links.
@@ -103,11 +123,13 @@ export const useProductsStore = defineStore('products', () => {
 
     return {
         products,
+        selectedProduct, 
         isLoading,
         filters,
         formattedMaxPrice,
         availableBrands,
         fetchProducts,
+        fetchProductById, 
         fetchAvailableBrands,
         updateUrlWithFilters,
         initializeFiltersFromUrl,

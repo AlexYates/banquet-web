@@ -17,6 +17,10 @@ export type Product = {
     image_url: string;
     category: ProductCategory;
     brand: string;
+    model?: string;
+    rating?: number;
+    deal_type?: 'percentage' | 'fixed_amount' | null;
+    deal_discount?: number | null;
 };
 
 export type CartItem = {

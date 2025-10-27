@@ -1,20 +1,36 @@
 <!-- banquet-web/src/components/products/ProductCard.vue -->
 
 <script setup lang="ts">
-import type { Product } from '@/types'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
 import { computed } from 'vue';
+import { RouterLink } from 'vue-router'
+
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+
+import type { Product } from '@/types'
 
 const props = defineProps<{
     product: Product
 }>()
 
+// NOTE: Extract as a utility?
+const finalPrice = computed(() => {
+    if (!props.product) return 0;
+    if (props.product.deal_type === 'percentage' && props.product.deal_discount) {
+        return props.product.price_in_pence * (1 - props.product.deal_discount / 100);
+    }
+    if (props.product.deal_type === 'fixed_amount' && props.product.deal_discount) {
+        return props.product.price_in_pence - props.product.deal_discount;
+    }
+    return props.product.price_in_pence;
+})
+
 const formattedPrice = computed(() => {
     return new Intl.NumberFormat('en-GB', {
         style: 'currency',
         currency: 'GBP',
-    }).format(props.product.price_in_pence / 100)
+    }).format(finalPrice.value / 100)
 })
 </script>
 
@@ -33,7 +49,9 @@ const formattedPrice = computed(() => {
             <p class="text-2xl font-semibold">{{ formattedPrice }}</p>
         </CardContent>
         <CardFooter class="flex flex-col xl:flex-row justify-between">
-            <Button class="mb-4 w-full xl:mb-0 xl:w-auto" variant="outline">View Details</Button>
+            <RouterLink class="mb-4 w-full lg:mr-2 xl:mb-0 max-xl:w-auto" :to="`/products/${product.id}`">
+                <Button variant="outline">View Details</Button>
+            </RouterLink>
             <Button class="w-full">Add to Cart</Button>
         </CardFooter>
     </Card>
