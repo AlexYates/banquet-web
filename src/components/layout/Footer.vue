@@ -1,8 +1,29 @@
 <!-- banquet-web/src/components/layout/Footer.vue -->
 
 <script setup lang="ts">
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+import { useAuthStore } from '@/stores/auth'
+import { useNewsletterStore } from '@/stores/newsletter'
+
+import SubscriptionForm from '@/components/newsletter/SubscriptionForm.vue';
+
+const email = ref('')
+const router = useRouter()
+const authStore = useAuthStore()
+const newsletterStore = useNewsletterStore()
+
+async function handleSubmit() {
+    const success = await newsletterStore.subscribe(email.value)
+    if (success) {
+        if (authStore.isAuthenticated) {
+            router.push('/newsletter')
+        }
+        email.value = ''
+    }
+}
 </script>
 
 <template>
@@ -16,17 +37,16 @@ import { Input } from '@/components/ui/input'
                 <h3 class="font-semibold">Quick Links</h3>
                 <ul class="mt-4 space-y-2">
                     <li><a href="#" class="text-muted-foreground hover:text-primary-foreground">About Us</a></li>
-                    <li><a href="#" class="text-muted-foreground hover:text-primary-foreground">Contact</a></li>
+                    <li>
+                        <RouterLink to="/newsletter" class="text-muted-foreground hover:text-primary-foreground">
+                            Newsletter</RouterLink>
+                    </li>
                     <li><a href="#" class="text-muted-foreground hover:text-primary-foreground">FAQ</a></li>
                 </ul>
             </div>
-            <div>
-                <h3 class="font-semibold">Join the Newsletter</h3>
-                <p class="text-muted-foreground mt-2">Get the latest deals and drops straight to your inbox.</p>
-                <form class="mt-4 flex gap-2">
-                    <Input type="email" placeholder="Enter your email" />
-                    <Button type="submit">Subscribe</Button>
-                </form>
+            <div class="md:col-start-3">
+                <SubscriptionForm title="Join the Newsletter"
+                    description="Get the latest deals and drops straight to your inbox." />
             </div>
         </div>
         <div class="border-t py-4">

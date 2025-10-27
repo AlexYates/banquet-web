@@ -90,6 +90,7 @@ export const useAuthStore = defineStore('auth', () => {
         clearAuth()
         toast.info('You have been logged out.')
         // We will handle redirecting the user in the component or router that calls this.
+        
     }
 
     return {

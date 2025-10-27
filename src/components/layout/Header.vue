@@ -36,7 +36,7 @@ const authStore = useAuthStore()
                         <User class="h-5 w-5" />
                         <span class="sr-only">My Account</span>
                     </Button>
-                    <Button variant="ghost" size="icon" @click="authStore.logout">
+                    <Button variant="ghost" size="icon" @click="authStore.logout; $router.push('/')">
                         <LogOut class="h-5 w-5" />
                         <span class="sr-only">Log Out</span>
                     </Button>
