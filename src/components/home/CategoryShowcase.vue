@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button';
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
 
             <div class="relative h-96 flex items-center justify-center text-center p-8 rounded-lg overflow-hidden bg-cover bg-center"
-                style="background-image: url('http://localhost:3000/images/category-surfboards.jpg');">
+                style="background-image: url('surfboard.webp');">
                 <div class="absolute inset-0 bg-black/60"></div>
                 <div class="relative text-white">
                     <h3 class="text-4xl font-extrabold">Surfboards</h3>
@@ -23,7 +23,7 @@ import { Button } from '@/components/ui/button';
             </div>
 
             <div class="relative h-96 flex items-center justify-center text-center p-8 rounded-lg overflow-hidden bg-cover bg-center"
-                style="background-image: url('http://localhost:3000/images/category-accessories.jpg');">
+                style="background-image: url('surfboard.webp');">
                 <div class="absolute inset-0 bg-black/60"></div>
                 <div class="relative text-white">
                     <h3 class="text-4xl font-extrabold">Accessories</h3>
