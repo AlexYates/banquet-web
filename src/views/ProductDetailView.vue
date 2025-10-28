@@ -104,7 +104,7 @@ const hasSpecs = computed(() => {
         </div>
         <div v-else class="grid md:grid-cols-2 gap-12">
             <div class="bg-muted rounded-lg flex items-center justify-center p-8">
-                <img :src="`http://localhost:3000${product.image_url}`" :alt="product.name"
+                <img :src="product.image_url" :alt="product.name"
                     class="max-h-[500px] object-contain" />
             </div>
             <div class="flex flex-col space-y-4">

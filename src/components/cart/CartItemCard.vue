@@ -1,10 +1,11 @@
 <!-- banquet-web/src/components/cart/CartItemCard.vue -->
 
 <script setup lang="ts">
-import type { CartItem } from '@/stores/cart'
-import { useCartStore } from '@/stores/cart'
 import { X } from 'lucide-vue-next'
 import { Button } from '@/components/ui/button'
+
+import type { CartItem } from '@/stores/cart'
+import { useCartStore } from '@/stores/cart'
 
 const props = defineProps<{ item: CartItem }>()
 const cartStore = useCartStore()
@@ -18,7 +19,7 @@ function updateQuantity(newQuantity: number) {
 <template>
     <div class="flex items-center gap-4 py-4">
         <div class="w-20 h-20 bg-muted rounded-md overflow-hidden flex-shrink-0">
-            <img :src="`http://localhost:3000${item.image_url}`" :alt="item.name" class="w-full h-full object-cover">
+            <img :src="item.image_url" :alt="item.name" class="w-full h-full object-cover">
         </div>
         <div class="flex-grow">
             <h3 class="font-semibold">{{ item.name }}</h3>
