@@ -24,12 +24,15 @@
         "@tsconfig/node20": "^20.1.6",
         "@types/node": "^20.19.23",
         "@vitejs/plugin-vue": "^5.2.4",
+        "@vitest/ui": "^4.0.4",
         "@vue/tsconfig": "^0.5.1",
         "autoprefixer": "^10.4.21",
+        "jsdom": "^27.0.1",
         "shadcn-vue": "^2.3.2",
         "tailwindcss": "^3.4.18",
         "typescript": "~5.4.5",
         "vite": "^5.4.21",
+        "vitest": "^4.0.4",
         "vue-tsc": "^2.2.12"
     },
     "name": "banquet-web",
@@ -38,7 +41,9 @@
     "scripts": {
         "build": "vue-tsc && vite build",
         "dev": "vite",
-        "preview": "vite preview"
+        "preview": "vite preview",
+        "test": "vitest",
+        "test:ui": "vitest --ui"
     },
     "type": "module",
     "version": "0.0.1"

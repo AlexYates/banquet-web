@@ -39,10 +39,9 @@ export const useAuthStore = defineStore('auth', () => {
     function clearAuth() {
         token.value = null
         user.value = null
-        localStorage.removeItem('authToken') // TODO: Is this working?
+        localStorage.removeItem('authToken') 
         console.log('clearAuth')
         window.location.reload()
-        // $router.push('/')
     }
 
     /**
@@ -92,8 +91,6 @@ export const useAuthStore = defineStore('auth', () => {
     function logout() {
         clearAuth()
         toast.info('You have been logged out.')
-        // We will handle redirecting the user in the component or router that calls this.
-
     }
 
     return {
