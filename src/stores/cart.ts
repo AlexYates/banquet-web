@@ -22,9 +22,19 @@ export const useCartStore = defineStore('cart', () => {
         return items.value.reduce((total, item) => total + item.quantity, 0)
     })
 
+    const cartSubtotal = computed(() => {
+        return items.value.reduce((total, item) => total + (item.price_in_pence * item.quantity), 0)
+    })
+
     const cartTotal = computed(() => {
-        const totalPence = items.value.reduce((total, item) => total + (item.price_in_pence * item.quantity), 0)
-        return new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' }).format(totalPence / 100)
+        return new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' }).format(cartSubtotal.value / 100)
+    })
+
+    const shippingCost: number = 499  // In pence
+
+    const grandTotal = computed(() => {
+        const cost: number = cartSubtotal.value + shippingCost;
+        return new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' }).format(cost / 100)
     })
 
     function togglePanel() {
@@ -82,16 +92,24 @@ export const useCartStore = defineStore('cart', () => {
         }
     }
 
+    function clearCart() {
+        items.value = []
+    }
+
     return {
         items,
         isPanelOpen,
         isLoading,
         itemCount,
+        cartSubtotal,
         cartTotal,
+        shippingCost,
+        grandTotal,
         togglePanel,
         fetchCart,
         addToCart,
         updateQuantity,
-        removeFromCart
+        removeFromCart,
+        clearCart,
     }
 })

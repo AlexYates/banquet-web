@@ -2,6 +2,7 @@ Install
 ```bash
 pnpm install
 pnpm approve-builds
+pnpm dlx shadcn-vue@latest add
 ```
 
 Develop

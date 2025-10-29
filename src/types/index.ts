@@ -72,3 +72,29 @@ export type Address = {
     country: string;
     is_default: boolean;
 };
+
+export type OrderStatus = 'pending' | 'paid' | 'shipped' | 'delivered' | 'cancelled';
+
+export type OrderItem = {
+    id: number;
+    order_id: number;
+    product_id: number;
+    quantity: number;
+    price_in_pence_at_purchase: number;
+    product_name_at_purchase: string;
+};
+
+export type Order = {
+    id: number;
+    user_id: number;
+    status: OrderStatus;
+    subtotal_in_pence: number;
+    shipping_in_pence: number;
+    tax_in_pence: number;
+    total_in_pence: number;
+    shipping_address: string; // Stored as JSON string
+    payment_intent_id: string | null;
+    created_at: string;
+    updated_at: string;
+    items?: OrderItem[]; // Optional items for detailed view
+};

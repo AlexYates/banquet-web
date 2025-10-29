@@ -6,14 +6,6 @@ import { useAuthStore } from '@/stores/auth'
 
 import MainLayout from '@/layouts/Main.vue'
 import HomeView from '@/views/HomeView.vue'
-import ProductsView from '@/views/ProductsView.vue'
-import NewsletterView from '@/views/NewsletterView.vue'
-import LoginView from '@/views/LoginView.vue'
-import RegisterView from '@/views/RegisterView.vue'
-import ProductDetailView from '@/views/ProductDetailView.vue'
-import AboutUsView from '@/views/AboutUsView.vue'
-import CartView from '@/views/CartView.vue'
-import AccountView from '@/views/AccountView.vue'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -30,47 +22,66 @@ const router = createRouter({
                 {
                     path: '/products',
                     name: 'products',
-                    component: ProductsView,
+                    component: () => import('@/views/ProductsView.vue'),
                 },
                 {
                     path: '/products/:id',
                     name: 'product-detail',
-                    component: ProductDetailView,
+                    component: () => import('@/views/ProductDetailView.vue'),
                 },
                 {
                     path: '/newsletter',
                     name: 'newsletter',
-                    component: NewsletterView,
+                    component: () => import('@/views/NewsletterView.vue'),
                     meta: { requiresAuth: true }
                 },
                 {
                     path: '/login',
                     name: 'login',
-                    component: LoginView,
+                    component: () => import('@/views/LoginView.vue'),
                     meta: { requiresGuest: true }
                 },
                 {
                     path: '/register',
                     name: 'register',
-                    component: RegisterView,
+                    component: () => import('@/views/RegisterView.vue'),
                     meta: { requiresGuest: true }
                 },
                 {
                     path: '/about-us',
                     name: 'about-us',
-                    component: AboutUsView,
+                    component: () => import('@/views/AboutUsView.vue'),
                 },
                 {
                     path: '/cart',
                     name: 'cart',
-                    component: CartView,
+                    component: () => import('@/views/CartView.vue'),
+                    meta: { requiresAuth: true }
+                },
+                {
+                    path: '/checkout',
+                    name: 'checkout',
+                    component: () => import('@/views/CheckoutView.vue'),
                     meta: { requiresAuth: true }
                 },
                 {
                     path: '/account',
                     name: 'account',
-                    component: AccountView,
-                meta: { requiresAuth: true }
+                    component: () => import('@/views/AccountView.vue'),
+                    meta: { requiresAuth: true },
+                    children: [
+                        {
+                            path: 'orders/:id',
+                            name: 'account-order-detail',
+                            component: () => import('@/views/OrderDetailView.vue')
+                        }
+                    ]
+                },
+                {
+                    path: '/orders/:id',
+                    name: 'order-confirmation',
+                    component: () => import('@/views/OrderConfirmationView.vue'),
+                    meta: { requiresAuth: true }
                 },
             ],
         },
