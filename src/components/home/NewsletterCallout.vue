@@ -13,7 +13,7 @@ import SubscriptionForm from '@/components/newsletter/SubscriptionForm.vue';
                     Be the first to know about new arrivals, exclusive deals, and stories from the surf community.
                 </p>
                 <div class="mt-8">
-                    <SubscriptionForm title="" description="" />
+                    <SubscriptionForm title="Subscribe to our Newsletter" description="" />
                 </div>
             </div>
         </div>
